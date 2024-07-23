@@ -1,0 +1,45 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class CurrencyConverter {
+
+    private static Map<String, Double> exchangeRates = new HashMap<>();
+
+    // Initialize exchange rates
+    static {
+        exchangeRates.put("USD", 1.0);      // US Dollar
+        exchangeRates.put("EUR", 0.92);     // Euro
+        exchangeRates.put("GBP", 0.77);     // British Pound
+        exchangeRates.put("JPY", 155.95);   // Japanese Yen
+        // Add more currencies as needed
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the amount to convert: ");
+        double amount = scanner.nextDouble();
+
+        System.out.print("Enter the currency to convert from (e.g., USD, EUR, GBP, JPY): ");
+        String fromCurrency = scanner.next().toUpperCase();
+
+        System.out.print("Enter the currency to convert to (e.g., USD, EUR, GBP, JPY): ");
+        String toCurrency = scanner.next().toUpperCase();
+
+        double convertedAmount = convert(amount, fromCurrency, toCurrency);
+        System.out.printf("%.2f %s = %.2f %s%n", amount, fromCurrency, convertedAmount, toCurrency);
+
+        scanner.close();
+    }
+
+    public static double convert(double amount, String fromCurrency, String toCurrency) {
+        // Convert to USD first
+        double amountInUSD = amount / exchangeRates.get(fromCurrency);
+
+        // Convert from USD to target currency
+        double convertedAmount = amountInUSD * exchangeRates.get(toCurrency);
+
+        return convertedAmount;
+    }
+}
